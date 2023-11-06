@@ -38,6 +38,19 @@ public class BoundingBox implements Cloneable {
     }
 
     /**
+     * Construct a bounding box from using the origin (0, 0, 0) as the lower
+     * point and supplied upper (x, y, z).
+     *
+     * @param xUpper x-component of upper point, representing max(x)
+     * @param yUpper y-component of upper point, representing max(y)
+     * @param zUpper z-component of upper point, representing max(z)
+     */
+    public BoundingBox(double xUpper, double yUpper, double zUpper)
+    {
+        this(new Point(), new Point(xUpper, yUpper, zUpper));
+    }
+
+    /**
      * Retrieve the lower boundary.
      *
      * @return lower boundary Point(min(x), min(y), min(z))
