@@ -143,20 +143,23 @@ public class Composite extends Polyhedron
     @Override
     public String toString()
     {
-        // Line 1: [Composite] -> _#_ polyhedra
-        String printString = String.format(
-            "%s%d polyhedra\n",
-            super.toString(),
-            this.allPolyhedra.size()
+        // StringBuilder: Allows String construction
+        StringBuilder compositeInfo = new StringBuilder();
+
+        // Line 1: Output Composite Info
+        compositeInfo.append(
+            String.format("%s%d polyhedra\n", super.toString(), this.size())
         );
 
-        // Lines 2 - n: Indented polyhedra descriptions
+        // Lines 2+: Output info for each shape in allPolyhedra (indented)
         for(Polyhedron poly : this.allPolyhedra){
-            String addToPrintString = String.format("  %s\n", poly.toString());
-            printString = printString + addToPrintString;
+            compositeInfo.append(
+                String.format("  %s\n", poly.toString())
+            );
         }
-
-        return printString;
+        
+        // Return: Everything added to StringBuilder formatted as String
+        return compositeInfo.toString();
     }
 }
 
