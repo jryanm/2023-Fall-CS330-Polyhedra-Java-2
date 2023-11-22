@@ -37,13 +37,19 @@ public class Composite extends Polyhedron
      * @param src source Composite object to copy
      *
      * @TODO complete this function
+     * --> Done!
      */
     public Composite(Composite src)
     {
+        // Name the composite and create a new vector to store polyhedra
         super("Composite");
-
         allPolyhedra = new Vector<Polyhedron>();
 
+        // Add each polyhedron from src polyhedra vector to allPolyhedra
+        for(Polyhedron poly : src.allPolyhedra){
+            this.allPolyhedra.add(poly.clone());
+            this.boundingBox.merge(poly.getBoundingBox());
+        }
     }
 
     /**
@@ -52,10 +58,14 @@ public class Composite extends Polyhedron
      * @param toAdd is cloned and the copy is added
      *
      * @TODO complete this function
+     * --> Done!
      */
     public void add(Polyhedron toAdd)
     {
-
+        // Clone toAdd and add it to allPolyhedra
+        // --> After adding polyhedron, merge the boundingBoxes
+        this.allPolyhedra.add(toAdd.clone());
+        this.boundingBox.merge(toAdd.getBoundingBox());
     }
 
     /**
@@ -64,10 +74,21 @@ public class Composite extends Polyhedron
      * @param scanner input source
      *
      * @TODO complete this function
+     * --> Done!
      */
     public void read(Scanner scanner)
     {
+        // Read number of polyhedra to add to vector
+        int numPoylhedra = scanner.nextInt();
 
+        // Read in, create, and add polyhedron to vector
+        // --> After polyhedron is added, merge the boundingBoxes
+        for(int i = 0; i < numPoylhedra; ++i){
+            Polyhedron poly = PolyhedronFactory.createAndRead(scanner);
+            
+            this.allPolyhedra.add(poly);
+            this.boundingBox.merge(poly.getBoundingBox());
+        }
     }
 
     /**
@@ -80,7 +101,13 @@ public class Composite extends Polyhedron
      */
     public void scale(double scalingFactor)
     {
+        // Scale all polyhedra in vector
+        for(Polyhedron poly : this.allPolyhedra){
+            poly.scale(scalingFactor);
+        }
 
+        // Scale boundingBox
+        this.boundingBox.scale(scalingFactor);
     }
 
     /**
@@ -111,12 +138,25 @@ public class Composite extends Polyhedron
      * @return String containing all component _Polyhedra_ objects
      *
      * @TODO complete this function
+     * --> Done!
      */
     @Override
     public String toString()
     {
+        // Line 1: [Composite] -> _#_ polyhedra
+        String printString = String.format(
+            "%s%d polyhedra\n",
+            super.toString(),
+            this.allPolyhedra.size()
+        );
 
-        return "Composite.toString not implemented";
+        // Lines 2 - n: Indented polyhedra descriptions
+        for(Polyhedron poly : this.allPolyhedra){
+            String addToPrintString = String.format("  %s\n", poly.toString());
+            printString = printString + addToPrintString;
+        }
+
+        return printString;
     }
 }
 
